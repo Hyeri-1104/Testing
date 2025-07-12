@@ -439,11 +439,11 @@
     });
 
     document.getElementById('startConsent').addEventListener('click', () => {
-      alert('下一步：页面切换功能（Step 2 即将实现）');
+      alert('next function will be built）');
     });
 
     document.getElementById('saveButton').addEventListener('click', () => {
-      alert('已保存设置！');
+      alert('save！');
     });
 
     // Chat logic
@@ -456,9 +456,7 @@
       chatArea.appendChild(bubble);
       chatArea.scrollTop = chatArea.scrollHeight;
     }
-    async function sendMessageToOpenAI(message) {
-      // Replace YOUR_OPENAI_API_KEY below with your actual key when ready
-      const apiKey = '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';
+    async function sendMessageToBackend(message) {
       addChatBubble(message, 'user');
       // Show loading bubble
       const loadingBubble = document.createElement('div');
@@ -467,14 +465,10 @@
       chatArea.appendChild(loadingBubble);
       chatArea.scrollTop = chatArea.scrollHeight;
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('/api/chat', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + apiKey
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
             messages: [
               { role: 'system', content: 'You are a helpful privacy assistant.' },
               { role: 'user', content: message }
@@ -490,15 +484,17 @@
         }
       } catch (e) {
         loadingBubble.remove();
-        addChatBubble('Error contacting OpenAI API.', 'assistant');
+        addChatBubble('Error contacting assistant.', 'assistant');
       }
     }
     chatInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && chatInput.value.trim()) {
-        sendMessageToOpenAI(chatInput.value.trim());
+        sendMessageToBackend(chatInput.value.trim());
         chatInput.value = '';
       }
     });
   </script>
 </body>
 </html>
+
+
