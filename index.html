@@ -327,6 +327,36 @@
     .bubble-grid {
       margin-bottom: 1.2rem;
     }
+    .chat-area {
+      max-height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      padding: 0 1.2rem 0.5rem 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .chat-bubble {
+      display: inline-block;
+      padding: 0.7rem 1.1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      max-width: 80%;
+      word-break: break-word;
+      margin-top: 0.2rem;
+    }
+    .chat-bubble.user {
+      background: #35395a;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 8px;
+    }
+    .chat-bubble.assistant {
+      background: #e5e7f0;
+      color: #23284a;
+      align-self: flex-start;
+      border-bottom-left-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -341,6 +371,9 @@
         <p>Hi there! 👋 Let’s quickly go over how your data may be used.</p>
         <button class="gradient-button" id="startConsent">Quick consent together →</button>
       </div>
+
+      <!-- Chat conversation area -->
+      <div id="chatArea" class="chat-area"></div>
 
       <div class="bottom-panel">
         <div class="preferences-carousel" id="carousel">
@@ -411,6 +444,60 @@
 
     document.getElementById('saveButton').addEventListener('click', () => {
       alert('已保存设置！');
+    });
+
+    // Chat logic
+    const chatArea = document.getElementById('chatArea');
+    const chatInput = document.querySelector('.chat-input input');
+    function addChatBubble(text, sender) {
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble ' + sender;
+      bubble.textContent = text;
+      chatArea.appendChild(bubble);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+    async function sendMessageToOpenAI(message) {
+      // Replace YOUR_OPENAI_API_KEY below with your actual key when ready
+      const apiKey = 'YOUR_OPENAI_API_KEY';
+      addChatBubble(message, 'user');
+      // Show loading bubble
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'chat-bubble assistant';
+      loadingBubble.textContent = '...';
+      chatArea.appendChild(loadingBubble);
+      chatArea.scrollTop = chatArea.scrollHeight;
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo',
+            messages: [
+              { role: 'system', content: 'You are a helpful privacy assistant.' },
+              { role: 'user', content: message }
+            ]
+          })
+        });
+        const data = await response.json();
+        loadingBubble.remove();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          addChatBubble(data.choices[0].message.content, 'assistant');
+        } else {
+          addChatBubble('Sorry, I could not get a response.', 'assistant');
+        }
+      } catch (e) {
+        loadingBubble.remove();
+        addChatBubble('Error contacting OpenAI API.', 'assistant');
+      }
+    }
+    chatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && chatInput.value.trim()) {
+        sendMessageToOpenAI(chatInput.value.trim());
+        chatInput.value = '';
+      }
     });
   </script>
 </body>
