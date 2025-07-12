@@ -1,0 +1,82 @@
+
+📘 Basic Knowledge Set: Cookie Consent (for AI Chatbot Training)
+
+🧠 Purposes of Data Processing
+
+1. Understand audiences through statistics
+   - Used to measure and analyze how users interact with content.
+   - Helps generate aggregated reports on user engagement patterns.
+   - Example: Knowing how many people read a certain article.
+
+2. Create profiles for personalised advertising
+   - Builds profiles based on browsing history, device use, and preferences.
+   - Enables serving tailored ads that match user interests.
+
+3. Use profiles to select personalised advertising
+   - Applies a pre-existing user profile to determine which ad to show.
+   - Ensures more relevant ad targeting.
+
+4. Measure advertising performance
+   - Tracks views, clicks, and conversions for ads.
+   - Assesses which ads are effective or ignored.
+
+5. Store and/or access information on a device
+   - Involves saving or retrieving identifiers (like cookies) on a device.
+   - Enables site to remember preferences or sessions.
+
+🛠️ Features and Special Features
+
+6. Match and combine data from other data sources
+   - Links user behavior on this site with data from loyalty cards, surveys, other sites.
+   - Enables more complete user profiles.
+
+7. Link different devices
+   - Identifies that the same user is active across multiple devices (e.g., phone and laptop).
+   - Helps maintain consistency in personalization and analytics.
+
+8. Identify devices based on information transmitted automatically
+   - Uses passive signals like IP address, screen size, fonts to distinguish devices.
+   - Helps with fraud prevention and identity resolution.
+
+9. Use precise geolocation data
+   - Collects exact GPS-based location data from the device (within a few meters).
+   - Requires user consent.
+
+10. Actively scan device characteristics for identification
+    - Examines hardware/software traits (e.g., OS version, browser plugins).
+    - Used for fingerprinting and fraud prevention.
+
+📥 Types of Data Collected
+
+11. Cookies
+    - Small text files saved on a device to retain user information between sessions.
+
+12. Device identifiers
+    - Unique IDs like Apple’s IDFA or Android's AdID used to track users across apps and sites.
+
+13. Browser type and settings
+    - Info like browser version, language, or screen resolution.
+
+14. Location data
+    - May include approximate or precise GPS location (if allowed).
+
+15. Email address
+    - Typically not collected through passive cookies unless user provides it actively.
+
+⚖️ Legal Basis for Data Processing
+
+16. Consent
+    - Explicit user permission is required before collecting or using personal data.
+    - Common for personalized advertising, location, or profile creation.
+
+17. Legitimate Interest
+    - Allows data collection without prior consent if there’s a clear business interest.
+    - Users have the right to opt out.
+    - Example: basic analytics or fraud detection.
+
+🧩 AI Training Notes
+
+- Associate “purposes” with why data is used.
+- Associate “features” with how data is handled or enhanced.
+- Know which data types are passively collected and which need active user input.
+- Understand Consent vs. Legitimate Interest as two legal grounds, with different opt-in/opt-out models.
