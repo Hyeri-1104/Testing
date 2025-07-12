@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Privacy Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+      height: 100vh;
+    }
+
+    .frame {
+      width: 402px;
+      height: 874px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      height: 100%;
+    }
+
+    header {
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      position: relative;
+      background: white;
+      font-size: 1.2rem;
+    }
+
+    header button {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      background: none;
+      border: none;
+      color: #007aff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .content p {
+      font-size: 1rem;
+      line-height: 1.5;
+      background: linear-gradient(to right, #f87171, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-button {
+      margin-top: 1rem;
+      padding: 0.7rem 1.4rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 9999px;
+      background: linear-gradient(to right, #a855f7, #0ea5e9);
+      color: white;
+      cursor: pointer;
+    }
+
+    .bottom-panel {
+      background: #f4f6fb;
+      padding: 1rem 1rem 0.5rem 1rem;
+      border-top: 1px solid #ccc;
+    }
+
+    .preferences {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preferences button {
+      background: #1e1e3f;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      border: none;
+      flex: 1;
+    }
+
+    .preferences-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: auto;
+}
+
+.preferences-panel {
+  position: absolute;
+  width: 100%;
+  left: 100%;
+  top: 0;
+  transition: left 0.4s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.preferences-panel.panel-1.active {
+  left: 0;
+}
+.preferences-panel.panel-2.active {
+  left: 0;
+}
+
+.bubble-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bubble {
+  flex: 1 1 45%;
+  padding: 0.5rem;
+  background: #d1d5db;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #007aff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+}
+
+
+    .preferences .show-more {
+      color: #007aff;
+      background: none;
+      border: none;
+      font-weight: 500;
+      padding: 0;
+      text-align: right;
+      margin-left: auto;
+      font-size: 0.9rem;
+    }
+
+    .chat-input {
+      margin-top: 0.8rem;
+      background: white;
+      border-radius: 16px;
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #aaa;
+      border: 1px solid #ddd;
+    }
+
+    .chat-input span {
+      margin-right: 0.5rem;
+    }
+
+    .chat-input input {
+      border: none;
+      outline: none;
+      flex: 1;
+      background: transparent;
+      font-size: 1rem;
+      color: #23284a;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .chat-input input:focus {
+      box-shadow: 0 0 0 2px #007aff33;
+      border: 1px solid #007aff;
+      background: #f4f6fb;
+    }
+    .arrow-btn {
+      background: #23284a;
+      color: white;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border: none;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .preferences-panel {
+      position: absolute;
+      width: 100%;
+      left: 100%;
+      top: 0;
+      transition: left 0.4s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: none;
+    }
+    .preferences-panel.panel-1.active,
+    .preferences-panel.panel-2.active {
+      left: 0;
+    }
+    .preferences {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-start;
+    }
+    .preferences button {
+      background: #23284a;
+      color: white;
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      flex: 1;
+      min-width: 0;
+    }
+    .show-more {
+      color: #007aff;
+      background: none;
+      border: none;
+      font-weight: 500;
+      padding: 0;
+      text-align: right;
+      margin-left: auto;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .bubble-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      justify-content: center;
+    }
+    .bubble-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .bubble {
+      width: 220px;
+      padding: 0.4rem 0.8rem;
+      background: #d1d5db;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.97rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 500;
+      margin: 0 auto;
+    }
+    .bottom-panel, .preferences-carousel {
+      min-height: 120px;
+    }
+    .purposes-label {
+      color: #23284a;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .bubble-grid {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .bubble-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .bubble {
+      width: 180px;
+      min-width: 180px;
+      max-width: 180px;
+      height: 38px;
+      padding: 0.2rem 0.6rem;
+      background: #d1d5db;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 400;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .bubble-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.2rem;
+    }
+    .bubble-grid {
+      margin-bottom: 1.2rem;
+    }
+    .chat-area {
+      max-height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      padding: 0 1.2rem 0.5rem 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .chat-bubble {
+      display: inline-block;
+      padding: 0.7rem 1.1rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      max-width: 80%;
+      word-break: break-word;
+      margin-top: 0.2rem;
+    }
+    .chat-bubble.user {
+      background: #35395a;
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 8px;
+    }
+    .chat-bubble.assistant {
+      background: #e5e7f0;
+      color: #23284a;
+      align-self: flex-start;
+      border-bottom-left-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="container">
+      <header>
+        Privacy Assistant
+        <button id="saveButton">Save</button>
+      </header>
+
+      <div class="content">
+        <p>Hi there! 👋 Let’s quickly go over how your data may be used.</p>
+        <button class="gradient-button" id="startConsent">Quick consent together →</button>
+      </div>
+
+      <!-- Chat conversation area -->
+      <div id="chatArea" class="chat-area"></div>
+
+      <div class="bottom-panel">
+        <div class="preferences-carousel" id="carousel">
+          <!-- Panel 1: Preferences -->
+          <div class="preferences-panel panel-1 active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="color: #7b8190; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.02em;">PREFERENCES</span>
+              <button class="show-more" id="showMore">SHOW MORE</button>
+            </div>
+            <div class="preferences" style="gap: 1rem;">
+              <button>About Purposes</button>
+              <button>About Features</button>
+              <button>About Vendors</button>
+            </div>
+          </div>
+          <!-- Panel 2: Purposes -->
+          <div class="preferences-panel panel-2">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+              <button class="arrow-btn" id="goBack" style="background: #23284a; color: white; border-radius: 50%; width: 32px; height: 32px; border: none; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">←</button>
+              <span class="purposes-label">PURPOSES</span>
+              <button class="arrow-btn" id="goForward" style="background: #23284a; color: white; border-radius: 50%; width: 32px; height: 32px; border: none; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">→</button>
+            </div>
+            <div class="bubble-grid">
+              <div class="bubble-col">
+                <button class="bubble"><span style='margin-right:6px;'>🖥️</span>Device Information</button>
+                <button class="bubble"><span style='margin-right:6px;'>📈</span>Advertising and Marketing</button>
+              </div>
+              <div class="bubble-col">
+                <button class="bubble"><span style='margin-right:6px;'>🔍</span>Analytics and Performance</button>
+                <button class="bubble"><span style='margin-right:6px;'>👥</span>Personalised content</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <span>🧠</span>
+          <input type="text" placeholder="Any data settings you'd like to adjust?" />
+          <span>❌</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const panel1 = document.querySelector('.panel-1');
+    const panel2 = document.querySelector('.panel-2');
+    const showMoreBtn = document.getElementById('showMore');
+    const goBackBtn = document.getElementById('goBack');
+    const goForwardBtn = document.getElementById('goForward');
+
+    showMoreBtn.addEventListener('click', () => {
+        panel1.classList.remove('active');
+        panel2.classList.add('active');
+    });
+
+    goBackBtn.addEventListener('click', () => {
+        panel2.classList.remove('active');
+        panel1.classList.add('active');
+    });
+    // Optionally, goForwardBtn can do nothing or loop
+    goForwardBtn.addEventListener('click', () => {
+        // You can add more panels or loop, currently does nothing
+    });
+
+    document.getElementById('startConsent').addEventListener('click', () => {
+      alert('next function will be built）');
+    });
+
+    document.getElementById('saveButton').addEventListener('click', () => {
+      alert('save！');
+    });
+
+    // Chat logic
+    const chatArea = document.getElementById('chatArea');
+    const chatInput = document.querySelector('.chat-input input');
+    function addChatBubble(text, sender) {
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble ' + sender;
+      bubble.textContent = text;
+      chatArea.appendChild(bubble);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+    async function sendMessageToBackend(message) {
+      addChatBubble(message, 'user');
+      // Show loading bubble
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'chat-bubble assistant';
+      loadingBubble.textContent = '...';
+      chatArea.appendChild(loadingBubble);
+      chatArea.scrollTop = chatArea.scrollHeight;
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: [
+              { role: 'system', content: 'You are a helpful privacy assistant.' },
+              { role: 'user', content: message }
+            ]
+          })
+        });
+        const data = await response.json();
+        loadingBubble.remove();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          addChatBubble(data.choices[0].message.content, 'assistant');
+        } else {
+          addChatBubble('Sorry, I could not get a response.', 'assistant');
+        }
+      } catch (e) {
+        loadingBubble.remove();
+        addChatBubble('Error contacting assistant.', 'assistant');
+      }
+    }
+    chatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && chatInput.value.trim()) {
+        sendMessageToBackend(chatInput.value.trim());
+        chatInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
+
